@@ -39,7 +39,7 @@ def make_network(tom, threshold=0):
     # diagonal of TOM should be 0
     np.fill_diagonal(tom.values, 0)
     nt = nx.from_pandas_adjacency(tom)
-    nt.remove_edeges_from([(k,j for k,j,i in nt.edges(data='weight') if i < threshold)])
+    nt.remove_edeges_from([(k,j) for k,j,i in nt.edges(data='weight') if i < threshold])
     return nt
 
 

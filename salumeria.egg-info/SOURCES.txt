@@ -1,0 +1,9 @@
+LICENSE
+README.md
+setup.py
+salumeria/__init__.py
+salumeria/general.py
+salumeria.egg-info/PKG-INFO
+salumeria.egg-info/SOURCES.txt
+salumeria.egg-info/dependency_links.txt
+salumeria.egg-info/top_level.txt

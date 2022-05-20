@@ -23,7 +23,7 @@ def TOM(a):
     k = np.sum(a) # connectivity of nodes
     l = np.dot(a, a) # dot of the similarity matrix
     K = np.min(np.stack((np.tile(k, (len(k),1)), np.tile(k, (len(k),1)).T), axis = 2), axis = 2) # kmin{i,j}
-    tom = (l+wgex)/(K + 1 + wgex)
+    tom = (l+a)/(K + 1 + a)
     np.fill_diagonal(TOM.values, 1)
     return tom
 

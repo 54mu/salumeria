@@ -37,9 +37,10 @@ def clusterize(dis, method='average', optimal_ordering=True ,**kwargs):
 
 def make_network(tom, threshold=0):
     # diagonal of TOM should be 0
-    np.fill_diagonal(tom.values, 0)
-    nt = nx.from_pandas_adjacency(tom)
-    nx.remove_edeges_from(nt,[(k,j) for k,j,i in nt.edges(data='weight') if i < threshold])
+    local_tom = tom.copy()
+    np.fill_diagonal(local_tom.values, 0)
+    nt = nx.from_pandas_adjacency(local_tom)
+    nt.remove_edges_from([(k,j) for k,j,i in nt.edges(data='weight') if i <= threshold])
     return nt
 
 

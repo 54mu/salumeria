@@ -24,7 +24,7 @@ def TOM(a):
     l = np.dot(a, a) # dot of the similarity matrix
     K = np.min(np.stack((np.tile(k, (len(k),1)), np.tile(k, (len(k),1)).T), axis = 2), axis = 2) # kmin{i,j}
     tom = (l+a)/(K + 1 + a)
-    np.fill_diagonal(TOM.values, 1)
+    np.fill_diagonal(tom.values, 1)
     return tom
 
 def dissimilarity(tom):
@@ -39,7 +39,7 @@ def make_network(tom, threshold=0):
     # diagonal of TOM should be 0
     np.fill_diagonal(tom.values, 0)
     nt = nx.from_pandas_adjacency(tom)
-    nt.remove_edeges_from([(k,j) for k,j,i in nt.edges(data='weight') if i < threshold])
+    nx.remove_edeges_from(nt,[(k,j) for k,j,i in nt.edges(data='weight') if i < threshold])
     return nt
 
 

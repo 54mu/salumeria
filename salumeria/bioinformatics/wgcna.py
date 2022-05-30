@@ -11,18 +11,18 @@ based on Zhang and Hovarth 2005
 def sigmoid(x, t=1):
     return(((1/(1 +( np.e ** (x*-t))))-0.5)*2)
 
-def weighted_coexpression_similarity(expression_values, signed=True, method="pearson", threshold = 'default', weight_method = 'power', **kwargs):
+def weighted_coexpression_similarity(expression_values, signed=True, method="pearson", threshold = 'default', weight_method = 'power', t=1):
     cor_mat = expression_values.transpose().corr(method)
     if signed:
         if threshold == 'default':
             threshold = 12
         if weight_method == 'sigmoid':
-            return cor_mat.apply(sigmoid, axis = 0, t=1)
+            return cor_mat.apply(sigmoid, axis = 0, t=t)
         return ((cor_mat + 1)/2)**threshold
     if threshold == 'default':
         threshold = 6
         if weight_method == 'sigmoid':
-            return cor_mat.apply(sigmoid, axis = 0, t=1)
+            return cor_mat.apply(sigmoid, axis = 0, t=t)
     return abs(cor_mat)**threshold
 
 def TOM(a):

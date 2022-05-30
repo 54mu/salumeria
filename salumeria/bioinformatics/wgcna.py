@@ -8,15 +8,21 @@ import networkx as nx
 based on Zhang and Hovarth 2005
 '''
 
-def weighted_coexpression_similarity(expression_values, signed=True, method="pearson", threshold = 'default'):
+def sigmoid(x, t=1):
+    return(((1/(1 +( np.e ** (x*-t))))-0.5)*2)
 
+def weighted_coexpression_similarity(expression_values, signed=True, method="pearson", threshold = 'default', weight_method = 'power', **kwargs):
     cor_mat = expression_values.transpose().corr(method)
     if signed:
         if threshold == 'default':
             threshold = 12
+        if weight_method == 'sigmoid':
+            return cor_mat.apply(sigmoid, axis = 0, t=1)
         return ((cor_mat + 1)/2)**threshold
     if threshold == 'default':
         threshold = 6
+        if weight_method == 'sigmoid':
+            return cor_mat.apply(sigmoid, axis = 0, t=1)
     return abs(cor_mat)**threshold
 
 def TOM(a):
@@ -31,9 +37,13 @@ def dissimilarity(tom):
     return (1-tom)
 
 def clusterize(dis, method='average', optimal_ordering=True ,**kwargs):
+    '''
+    TODO - should also return the dendrogram
+    '''
     dendro = dendrogram(linkage(dis, method=method, optimal_ordering=optimal_ordering), **kwargs) # use kwargs for dendro args
     cluster_map = dict(zip(list(dis.index[dendro['leaves']]), dendro['leaves_color_list']))
     return(cluster_map)
+
 
 def make_network(tom, threshold=0):
     # diagonal of TOM should be 0
